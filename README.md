@@ -3,6 +3,18 @@ Redis-Cleaner [![Build Status](https://travis-ci.org/lloydmeta/redis-cleaner.png
 
 A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys)
 
+Installation
+=======
+    $ gem install redis-cleaner
+
+or add to your ``Gemfile``
+
+    gem 'redis-cleaner'
+
+and install it with
+
+    $ bundle install
+
 Example Usage
 =========
 
