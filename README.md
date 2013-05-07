@@ -43,7 +43,9 @@ redis_config = {
   timeout: 60
 }
 
-redis_cleaner = RedisKeyCleaner.new(Redis.new(redis_config), "./borked_keys")
+# Any Redis connection (as noted above) will do, here we just use the normal Redis RB client
+redis_connection = Redis.new(redis_config)
+redis_cleaner = RedisKeyCleaner.new(redis_connection, "./borked_keys")
 ```
 
 Separate dumping and cleaning
