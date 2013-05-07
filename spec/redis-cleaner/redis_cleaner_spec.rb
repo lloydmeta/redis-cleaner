@@ -4,7 +4,13 @@ require 'tempfile'
 describe RedisCleaner do
 
   let(:fake_keys){%w[key1 key2 key3 key4 key5 a_key1 a_key2]}
-  let(:redis_mock){double("Redis mock", :keys => fake_keys)}
+  let(:redis_mock){
+    r = double("Redis mock", :keys => fake_keys)
+    r.stub(:del) do |arg|
+      arg.size
+    end
+    r
+  }
   let(:temp_file){Tempfile.new('test_file')}
   let(:temp_file_path){temp_file.path}
   let(:redis_cleaner){RedisCleaner.new(redis_mock, temp_file_path)}
@@ -31,12 +37,13 @@ describe RedisCleaner do
     end
 
     it "should return the number of keys deleted if everything was deleted successfully" do
-      redis_mock.stub(:del).and_return(fake_keys.size)
       redis_cleaner.remove_from_redis(fake_keys).should eq(fake_keys.size)
     end
 
     it "should return false if the number of keys deleted does not equal the number of keys passed in" do
-      redis_mock.stub(:del).and_return(fake_keys.size - 1)
+      redis_mock.stub(:del) do |arg|
+        arg.size - 1
+      end
       redis_cleaner.remove_from_redis(fake_keys).should be_false
     end
 
@@ -63,6 +70,19 @@ describe RedisCleaner do
       temp_file_array.zip(fake_keys).each do |(t, f)|
         t.strip.should eq f
       end
+    end
+
+  end
+
+  describe "#delete_keys_in_temp_file" do
+
+    before(:each) do
+      redis_cleaner.dump_matching_keys_to_temp_file("bleh")
+    end
+
+    it "should call #remove_from_redis" do
+      redis_cleaner.should_receive(:remove_from_redis)
+      redis_cleaner.delete_keys_in_temp_file(verbose: false)
     end
 
   end
