@@ -9,6 +9,7 @@ Example Usage
 Instantiating a redis_cleaner
 
 ```ruby
+require 'redis_cleaner'
 # Timeout needs to be set, because KEYS is run on the Redis-server
 # side, which is potentially slow -> O(n) where n is the number of keys
 redis_config = {
@@ -28,10 +29,10 @@ cleanup_job_stats = redis_cleaner.delete_keys_in_temp_file(verbose: false)
 puts "Deleted #{cleanup_job_stats[:deleted_keys_count]} keys out of #{cleanup_job_stats[:total_keys_count]}"
 ```
 
-Do everything in one go
+Do everything in one go (dumps to file and deletes the file by default)
 
 ```ruby
-redis_cleaner.dump_matching_keys_to_temp_file("resque:resque-retry*", delete_temp_file: false, verbose: false, batch_size: 200)
+redis_cleaner.dump_and_delete("resque:resque-retry*", delete_temp_file: false, verbose: false, batch_size: 200)
 ```
 
 ## License
