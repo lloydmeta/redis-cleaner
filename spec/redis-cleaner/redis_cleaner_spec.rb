@@ -87,4 +87,30 @@ describe RedisCleaner do
 
   end
 
+  describe "#dump_and_delete" do
+
+    let(:pattern){"lala"}
+    let(:fake_params){{asdf: 3, verbose: false}}
+
+    before(:each) do
+      redis_cleaner.stub(:delete_keys_in_temp_file).and_return({deleted_keys_count: fake_keys.size, total_keys_count: fake_keys.size})
+    end
+
+    it "should call receive pattern and params as arguments" do
+      redis_cleaner.should_receive(:dump_and_delete).with(pattern, fake_params)
+      redis_cleaner.dump_and_delete(pattern, fake_params)
+    end
+
+    it "should call #dump_matching_keys_to_temp_file" do
+      redis_cleaner.should_receive(:dump_matching_keys_to_temp_file)
+      redis_cleaner.dump_and_delete(pattern, fake_params)
+    end
+
+    it "should call #delete_keys_in_temp_file" do
+      redis_cleaner.should_receive(:delete_keys_in_temp_file)
+      redis_cleaner.dump_and_delete(pattern, fake_params)
+    end
+
+  end
+
 end
