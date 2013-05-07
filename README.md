@@ -3,6 +3,37 @@ Redis-Cleaner
 
 A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys)
 
+Example Usage
+=========
+
+Instantiating a redis_cleaner
+
+```ruby
+# Timeout needs to be set, because KEYS is run on the Redis-server
+# side, which is potentially slow -> O(n) where n is the number of keys
+redis_config = {
+  host: "127.0.0.1",
+  port: 6390,
+  timeout: 60
+}
+
+redis_cleaner = RedisKeyCleaner.new(Redis.new(redis_config), "./borked_keys")
+```
+
+Separate dumping and cleaning
+
+```ruby
+redis_cleaner.dump_matching_keys_to_temp_file("resque:resque-retry*") #<-- can be skipped if you already have a file to read from
+cleanup_job_stats = redis_cleaner.delete_keys_in_temp_file(verbose: false)
+puts "Deleted #{cleanup_job_stats[:deleted_keys_count]} keys out of #{cleanup_job_stats[:total_keys_count]}"
+```
+
+Do everything in one go
+
+```ruby
+redis_cleaner.dump_matching_keys_to_temp_file("resque:resque-retry*", delete_temp_file: false, verbose: false, batch_size: 200)
+```
+
 ## License
 
 Copyright (c) 2013 by Lloyd Chan
