@@ -1,4 +1,4 @@
-Redis-Cleaner
+Redis-Cleaner [![Build Status](https://travis-ci.org/lloydmeta/redis-cleaner.png?branch=master)](https://travis-ci.org/lloydmeta/redis-cleaner) [![Code Climate](https://codeclimate.com/github/lloydmeta/redis-cleaner.png)](https://codeclimate.com/github/lloydmeta/redis-cleaner)
 -------------
 
 A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys)
