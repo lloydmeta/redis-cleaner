@@ -1,7 +1,7 @@
 Redis-Cleaner [![Build Status](https://travis-ci.org/lloydmeta/redis-cleaner.png?branch=master)](https://travis-ci.org/lloydmeta/redis-cleaner) [![Code Climate](https://codeclimate.com/github/lloydmeta/redis-cleaner.png)](https://codeclimate.com/github/lloydmeta/redis-cleaner)
 -------------
 
-A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys)
+A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys). Compatible with any Redis client for Ruby that responds in the same way as the official Redis client for Ruby does to the 2 methods: #del and #keys.
 
 Installation
 =======
