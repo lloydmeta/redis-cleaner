@@ -25,6 +25,11 @@ describe RedisCleaner do
 
   describe "#remove_from_redis" do
 
+    it "should receive key_group as an argument" do
+      redis_cleaner.should_receive(:remove_from_redis).with(fake_keys)
+      redis_cleaner.remove_from_redis(fake_keys)
+    end
+
     it "should return the number of keys deleted if everything was deleted successfully" do
       redis_mock.stub(:del).and_return(fake_keys.size)
       redis_cleaner.remove_from_redis(fake_keys).should eq(fake_keys.size)
@@ -33,6 +38,31 @@ describe RedisCleaner do
     it "should return false if the number of keys deleted does not equal the number of keys passed in" do
       redis_mock.stub(:del).and_return(fake_keys.size - 1)
       redis_cleaner.remove_from_redis(fake_keys).should be_false
+    end
+
+  end
+
+  describe "#dump_matching_keys_to_temp_file" do
+
+    it "should receive a pattern as an argument" do
+      pattern = "asdf1234"
+      redis_cleaner.should_receive(:dump_matching_keys_to_temp_file).with(pattern)
+      redis_cleaner.dump_matching_keys_to_temp_file(pattern)
+    end
+
+    it "should call #keys on the redis object" do
+      pattern = "asdf1234"
+      redis_mock.should_receive(:keys).with(pattern)
+      redis_cleaner.dump_matching_keys_to_temp_file(pattern)
+    end
+
+    it "should dump the keys into the temp file" do
+      pattern = "asdf1234"
+      redis_cleaner.dump_matching_keys_to_temp_file(pattern)
+      temp_file_array = File.readlines(temp_file_path)
+      temp_file_array.zip(fake_keys).each do |(t, f)|
+        t.strip.should eq f
+      end
     end
 
   end
