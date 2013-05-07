@@ -1,7 +1,11 @@
 Redis-Cleaner [![Build Status](https://travis-ci.org/lloydmeta/redis-cleaner.png?branch=master)](https://travis-ci.org/lloydmeta/redis-cleaner) [![Code Climate](https://codeclimate.com/github/lloydmeta/redis-cleaner.png)](https://codeclimate.com/github/lloydmeta/redis-cleaner)
 -------------
 
-A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys). Compatible with any Redis client for Ruby that responds in the same way as the official Redis client for Ruby does to the 2 methods: #del and #keys.
+A simple way of cleaning up a large number of Redis keys via [pattern matching](http://redis.io/commands/keys). Compatible with any Redis client for Ruby that responds in the same way as the official Redis client for Ruby does to the 2 methods: #del and #keys. These include but are not limited to:
+
+  - [Redis-rb](https://github.com/redis/redis-rb)
+  - [hiredis-rb](https://github.com/pietern/hiredis-rb)
+  - [redis_failover](https://github.com/ryanlecompte/redis_failover)
 
 Installation
 =======
@@ -21,7 +25,9 @@ Example Usage
 Instantiating a redis_cleaner
 
 ```ruby
+require 'redis'
 require 'redis_cleaner'
+
 # Timeout needs to be set, because KEYS is run on the Redis-server
 # side, which is potentially slow -> O(n) where n is the number of keys
 redis_config = {

@@ -23,11 +23,6 @@ class RedisCleaner
     end
   end
 
-  # def delete_in_groups
-  # end
-  # deleted_keys_count = 0
-  # total_keys_count = 0
-
   # takes params inside a hash
   #   :batch_size defaults to 20
   #   :verbose defaults to true
