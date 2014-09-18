@@ -45,7 +45,7 @@ redis_config = {
 
 # Any Redis connection (as noted above) will do, here we just use the normal Redis RB client
 redis_connection = Redis.new(redis_config)
-redis_cleaner = RedisKeyCleaner.new(redis_connection, "./borked_keys")
+redis_cleaner = RedisCleaner.new(redis_connection, "./borked_keys")
 ```
 
 Separate dumping and cleaning
