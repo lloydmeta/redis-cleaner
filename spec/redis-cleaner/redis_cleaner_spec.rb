@@ -44,7 +44,7 @@ describe RedisCleaner do
       redis_mock.stub(:del) do |arg|
         arg.size - 1
       end
-      redis_cleaner.remove_from_redis(fake_keys).should be_false
+      redis_cleaner.remove_from_redis(fake_keys).should be_falsey
     end
 
   end
